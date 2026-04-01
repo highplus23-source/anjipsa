@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>연서네 싱가포르 비서 🌴</title>
+    <!-- PWA 메타태그 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0D9488">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="싱가포르 여행">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="description" content="연서네 가족을 위한 싱가포르 여행 모바일 가이드">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        :root {
+            --primary: #0D9488;
+            --primary-dark: #0F766E;
+            --primary-light: #CCFBF1;
+            --accent: #F59E0B;
+            --bg: #F0FDFA;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-mute: #6B7280;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0D9488 0%, #0891B2 50%, #6366F1 100%);
+            color: white;
+            padding: 30px 20px 20px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 10px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.3);
+        }
+
+        .btn:active {
+            background-color: var(--primary-dark);
+            transform: translateY(1px);
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-accent:active {
+            background-color: #D97706;
+        }
+
+        .item-row {
+            margin-bottom: 15px;
+            border-bottom: 1px dotted #E5E7EB;
+            padding-bottom: 10px;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 6px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .tag-warn {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .tag-cruise {
+            background: #EDE9FE;
+            color: #5B21B6;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        .item-desc {
+            font-size: 14px;
+            color: var(--text-mute);
+            margin: 0;
+        }
+
+        .highlight {
+            color: #E11D48;
+            font-weight: bold;
+        }
+
+        .tip-box {
+            background: #FFF7ED;
+            border-left: 4px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+            padding: 12px 15px;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #92400E;
+        }
+
+        .answer-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 12px 15px;
+            margin: 10px 0;
+            font-size: 14px;
+            color: var(--primary-dark);
+        }
+
+        /* Toggle Styles */
+        details {
+            background-color: #F9FAFB;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+        }
+
+        summary {
+            font-weight: 600;
+            padding: 15px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #374151;
+            outline: none;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: "▼";
+            font-size: 12px;
+            color: #9CA3AF;
+            transition: transform 0.2s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid #E5E7EB;
+            color: var(--primary);
+        }
+
+        .details-content {
+            padding: 15px;
+            font-size: 14px;
+            color: #4B5563;
+            line-height: 1.6;
+        }
+
+        .details-content ul,
+        .details-content ol {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding-left: 20px;
+        }
+
+        .details-content li {
+            margin-bottom: 8px;
+        }
+
+        .details-content a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #99F6E4;
+        }
+
+        .details-content a:hover {
+            background-color: var(--primary-light);
+        }
+
+        .section-divider {
+            text-align: center;
+            margin: 30px 0 20px;
+            font-size: 13px;
+            color: #9CA3AF;
+            position: relative;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 25%;
+            height: 1px;
+            background: #D1D5DB;
+        }
+
+        .section-divider::before {
+            left: 10%;
+        }
+
+        .section-divider::after {
+            right: 10%;
+        }
+
+        .day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary) 0%, #0891B2 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 10px;
+        }
+
+        .cruise-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 10px;
+        }
+
+        .scenario-card {
+            background: #FEFCE8;
+            border: 1px solid #FDE68A;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .scenario-card h4 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            color: #92400E;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🌴 연서네 싱가포르 여행</h1>
+        <p>2026.04.21 - 04.27 (싱가포르 + 디즈니 크루즈 🚢)</p>
+    </div>
+
+    <div class="container">
+
+        <!-- 핵심 질문 답변 -->
+        <div class="card">
+            <h2 class="card-title">💡 여행 전 궁금증 해결</h2>
+
+            <details open>
+                <summary>🤔 쥬얼 창이: 7시 15분 도착인데 구경+식사 가능할까?</summary>
+                <div class="details-content">
+                    <div class="answer-box">
+                        <strong>✅ 가능하지만, 빠르게 움직여야 합니다.</strong>
+                    </div>
+                    <ul>
+                        <li><strong>입국 심사 + 셔틀:</strong> T4 도착 후 입국 심사(약 20~30분) + T1행 무료 셔틀버스(약 15분) = <span class="highlight">약 7시 50분~8시경 쥬얼 도착</span></li>
+                        <li><strong>HSBC 레인 보텍스(폭포):</strong> 폭포 자체는 10시까지 운영, <strong>빛+음악 쇼는 7:30/8:30/9:30/10:30/11:30</strong>에 진행 → 8:30 쇼 관람 추천</li>
+                        <li><strong>식사:</strong> 대부분의 식당은 10시까지이나, <strong>일부 식당은 11시~자정</strong>까지 영업. 9시 전후로 식사 시작하면 충분</li>
+                        <li><strong>추천 동선:</strong> 도착 → 폭포 구경(1층~5층 다양한 뷰) → 8:30 빛쇼 감상 → B2~L1 푸드홀에서 식사 → 택시로 호텔</li>
+                    </ul>
+                    <div class="tip-box">
+                        💡 <strong>팁:</strong> 쥬얼 자체는 24시간 개방이므로 식사 후에도 산책 가능. T4에서 T1까지 셔틀은 자정까지 직행, 새벽엔 경유 운행.
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🤔 레인포레스트 와일드 아시아, 시간이 얼마나 걸려?</summary>
+                <div class="details-content">
+                    <div class="answer-box">
+                        <strong>🕐 기본 관람 2~3시간 / 어드벤처 활동 포함 시 4시간+</strong>
+                    </div>
+                    <ul>
+                        <li><strong>운영시간:</strong> 매일 09:00~18:00 (마지막 입장 17:00)</li>
+                        <li><strong>호텔→만다이:</strong> 택시 약 20~25분 (약 19km)</li>
+                        <li><strong>특징:</strong> 2025년 3월 개장한 최신 시설. 전통 동물원이 아닌 <strong>열대우림 트레킹+자유 방사</strong> 컨셉</li>
+                        <li><strong>하이라이트:</strong> 카르스트 석회암 타워, 동굴 체험, 워터링 홀(말레이 곰+맥), 캐노피 워킹넷</li>
+                        <li><strong>팁:</strong> 오전 9시 개장 시 방문이 시원하고 동물도 활발함. 편한 운동화 필수!</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🤔 가든 랩소디(가든스 바이 더 베이 빛쇼) 매일 하나요?</summary>
+                <div class="details-content">
+                    <div class="answer-box">
+                        <strong>✅ 네! 매일 2회 공연, 무료입니다.</strong>
+                    </div>
+                    <ul>
+                        <li><strong>시간:</strong> 매일 <strong>19:45 / 20:45</strong> (약 15분 소요)</li>
+                        <li><strong>장소:</strong> 슈퍼트리 그로브 (Supertree Grove)</li>
+                        <li><strong>비용:</strong> 무료! 🎉</li>
+                        <li><strong>추천:</strong> 20:45 회차를 보면 머라이언파크 등 다른 곳을 먼저 둘러보고 올 수 있어 동선이 좋습니다.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🤔 하지레인, 짐 들고 다녀도 될까?</summary>
+                <div class="details-content">
+                    <div class="answer-box">
+                        <strong>⚠️ 짐 보관 서비스 이용을 강력 추천합니다.</strong>
+                    </div>
+                    <ul>
+                        <li>하지레인은 <strong>좁은 골목길</strong>이라 캐리어를 끌고 다니기 매우 불편합니다.</li>
+                        <li><strong>짐 보관 옵션:</strong></li>
+                        <li>✅ <strong>Bounce / Radical Storage</strong> 앱으로 부기스(Bugis) 근처 보관소 예약 (1일 SGD 5~9/개)</li>
+                        <li>✅ <strong>창이공항 짐 보관소</strong>: 모든 터미널에 있으며, 아침에 공항에서 짐을 맡기고 시내로 나가는 방법도 있음</li>
+                        <li><strong>추천:</strong> 크루즈 하선 후 → 창이공항 짐 보관 → 시내 관광 → 공항 복귀가 가장 편리</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <!-- 입국 준비 서류 -->
+        <div class="card">
+            <h2 class="card-title">📋 입국 준비 서류 & 체크리스트</h2>
+            <p class="item-desc" style="margin-bottom:15px;">한국 여권 소지자는 <strong>무비자 90일</strong> 체류 가능. 단, 아래 사전 준비가 필수입니다!</p>
+
+            <details open>
+                <summary>🛂 SG Arrival Card (전자입국카드) — 필수!</summary>
+                <div class="details-content">
+                    <div class="answer-box">
+                        <strong>⚠️ 도착일 포함 3일 전부터 사전 작성 필수 (무료)</strong><br>
+                        → 4/21 도착이므로 <strong class="highlight">4/19(일)부터</strong> 작성 가능
+                    </div>
+                    <p style="margin-top:10px;"><strong>작성 방법:</strong></p>
+                    <ol>
+                        <li>공식 사이트 접속 → 오른쪽 상단에서 <strong>한국어</strong> 선택 가능</li>
+                        <li><strong>"Foreign Visitor(외국인 방문객)"</strong> 선택</li>
+                        <li>가족이면 <strong>"Group Submission(단체 제출)"</strong> 선택 → 한 번에 가족 전원 입력!</li>
+                        <li>여권 정보, 항공편, 숙소, 건강상태 영문으로 입력</li>
+                        <li>제출 완료 → <strong>확인 PDF 다운로드</strong> or 이메일 저장</li>
+                    </ol>
+                    <div class="tip-box">
+                        💡 <strong>사기 주의:</strong> SG Arrival Card는 <strong>완전 무료</strong>입니다. 결제를 요구하는 사이트는 모두 사기! 반드시 공식 ICA 사이트만 이용하세요.
+                    </div>
+                    <p style="margin-top:10px;"><strong>입력 시 필요한 정보:</strong></p>
+                    <ul>
+                        <li>📘 여권번호, 영문 이름, 생년월일, 국적</li>
+                        <li>✈️ 항공편명, 출발지, 도착일</li>
+                        <li>🏨 숙소: <strong>Hilton Singapore Orchard</strong>
+                            <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;주소: 333 Orchard Road, Singapore 238867</span></li>
+                        <li>📧 이메일 주소 (디지털 입국 허가서 수신용)</li>
+                        <li>📱 연락 가능한 전화번호 (+82)</li>
+                    </ul>
+                    <a href="https://eservices.ica.gov.sg/sgarrivalcard/" target="_blank" class="btn">🛂 SG Arrival Card 공식 작성 사이트</a>
+                </div>
+            </details>
+
+            <details>
+                <summary>📘 여권 & 비자 요건</summary>
+                <div class="details-content">
+                    <ul>
+                        <li>🇰🇷 한국 여권: <strong>무비자 입국 (최대 90일)</strong></li>
+                        <li>여권 잔여 유효기간: <strong class="highlight">최소 6개월 이상</strong> 필요
+                            <br><span style="font-size:12px; color:#E11D48;">&nbsp;&nbsp;&nbsp;→ 2026년 10월 이후까지 유효해야 함! 꼭 확인!</span></li>
+                        <li>왕복 항공권 (혹은 출국 증빙) 필요할 수 있음</li>
+                        <li>입국 심사: 생체 인식(안면, 홍채, 지문) 스캔</li>
+                        <li>디지털 입국 허가(e-Pass): 이메일로 수신 (종이 스탬프 없음)</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>✅ 출발 전 체크리스트</summary>
+                <div class="details-content">
+                    <p style="margin-top:0;"><strong>📌 서류 & 필수 준비</strong></p>
+                    <ul>
+                        <li>☐ 여권 유효기간 6개월 이상 확인</li>
+                        <li>☐ SG Arrival Card 작성 완료 (4/19~21 사이)</li>
+                        <li>☐ 항공권 e-ticket 저장/출력</li>
+                        <li>☐ 호텔 예약 확인서</li>
+                        <li>☐ 디즈니 크루즈 예약 확인서</li>
+                        <li>☐ 여행자 보험 가입 (권장)</li>
+                    </ul>
+                    <p><strong>📱 미리 설치할 앱</strong></p>
+                    <ul>
+                        <li>☐ <strong>Grab</strong> (택시 앱 — 싱가포르 필수!)</li>
+                        <li>☐ <strong>MyICA</strong> (SG Arrival Card 대체 가능)</li>
+                        <li>☐ <strong>Mandai App</strong> (와일드 아시아 관람 시 필요)</li>
+                        <li>☐ <strong>Google Maps</strong> (오프라인 지도 미리 다운로드)</li>
+                        <li>☐ <strong>Bounce</strong> (짐 보관 예약용 — 마지막 날)</li>
+                    </ul>
+                    <p><strong>💳 결제 준비</strong></p>
+                    <ul>
+                        <li>☐ 해외 결제 가능 카드 (비자/마스터) 확인</li>
+                        <li>☐ 싱가포르 달러 현금 소량 준비 (호커센터용)</li>
+                        <li>☐ Grab 앱에 카드 등록</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <!-- 전체 일정표 -->
+        <div class="card">
+            <h2 class="card-title">🗓️ 싱가포르 전체 일정표</h2>
+            <p class="item-desc" style="margin-bottom:15px; font-size:13px;">크루즈 4박 포함, 싱가포르 체류 3일+하선일 일정입니다.</p>
+
+            <details>
+                <summary>🔹 1일차: 4/21 (화) - 도착 & 쥬얼 창이 🌊</summary>
+                <div class="details-content" style="padding-top:0;">
+                    <span class="day-badge">DAY 1</span>
+                    <ul>
+                        <li><strong>19:15</strong> | 🛬 창이공항 T4 도착</li>
+                        <li><strong>19:15~19:45</strong> | 🛂 입국심사 및 수하물 수령</li>
+                        <li><strong>19:50</strong> | 🚌 T4→T1 무료 셔틀 탑승 (약 15분)</li>
+                        <li><strong>20:10</strong> | 🌊 쥬얼 창이 도착, HSBC 레인 보텍스(폭포) 구경</li>
+                        <li><strong>20:30</strong> | ✨ 빛+음악 쇼 관람 (20:30 혹은 21:30 회차)</li>
+                        <li><strong>21:00</strong> | 🍜 쥬얼 내 식당에서 석식</li>
+                        <li><strong>22:00</strong> | 🚕 택시로 힐튼 오차드 호텔 이동 (약 20분)</li>
+                        <li><strong>22:30</strong> | 🏨 체크인 및 휴식</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔹 2일차: 4/22 (수) - 와일드 아시아 & 마리나베이 🦁</summary>
+                <div class="details-content" style="padding-top:0;">
+                    <span class="day-badge">DAY 2</span>
+                    <ul>
+                        <li><strong>07:30</strong> | 🍳 호텔 조식</li>
+                        <li><strong>08:30</strong> | 🚕 택시로 만다이 와일드라이프 리저브 이동 (약 20~25분)</li>
+                        <li><strong>09:00</strong> | 🌿 레인포레스트 와일드 아시아 관람 (2~3시간)</li>
+                        <li><strong>12:00</strong> | 🚕 오차드로드 or 호텔 복귀</li>
+                        <li><strong>12:30</strong> | 🍗 <strong>채터박스(Chatterbox)</strong> 에서 싱가포르식 중식
+                            <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(힐튼 오차드 5층, 명물 하이난 치킨라이스)</span></li>
+                        <li><strong>14:00</strong> | 🚕 머라이언파크로 이동</li>
+                        <li><strong>14:30</strong> | 🦁 머라이언파크 관광 & 마리나베이 산책</li>
+                        <li><strong>16:00</strong> | 🌳 가든스 바이 더 베이 도착 (도보 20분 or 택시)</li>
+                        <li><strong>16:30</strong> | 🌺 플라워 돔 / 클라우드 포레스트 관람</li>
+                        <li><strong>18:30</strong> | 🍽️ 가든스 바이 더 베이 근처 or 마리나 베이 샌즈 푸드코트에서 석식</li>
+                        <li><strong>19:45</strong> | 🎆 <strong>가든 랩소디 빛쇼 관람</strong> (슈퍼트리 그로브, 무료)</li>
+                        <li><strong>20:30</strong> | 🚕 택시로 호텔 복귀</li>
+                    </ul>
+                    <div class="tip-box">
+                        💡 가든 랩소디는 19:45 / 20:45 매일 2회. 두 번째 공연 보고 싶으면 저녁을 좀 더 여유롭게!
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔹 3일차: 4/23 (목) - 보태닉 가든 & 디즈니 크루즈 승선 🚢</summary>
+                <div class="details-content" style="padding-top:0;">
+                    <span class="day-badge">DAY 3</span>
+                    <ul>
+                        <li><strong>07:30</strong> | 🍳 호텔 조식</li>
+                        <li><strong>08:30</strong> | 체크아웃 (짐은 호텔에 맡기거나 크루즈로 직송)</li>
+                        <li><strong>09:00</strong> | 🌿 싱가포르 보태닉 가든 방문 (호텔에서 택시 약 5분)
+                            <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UNESCO 세계유산 / 입장 무료 / 약 2~3시간 관람</span></li>
+                        <li><strong>11:30</strong> | 🚕 택시로 마리나 베이 크루즈 센터 이동 (약 20분)
+                            <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📍 61 Marina Coastal Drive, Singapore 018947</span></li>
+                        <li><strong>12:00</strong> | 🚢 <strong>디즈니 어드벤처호 체크인 & 승선</strong>
+                            <br><span style="font-size:12px; color:#7C3AED;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;보딩 시간: 보통 11:00~15:30</span></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔹 4~6일차: 4/24~26 - 디즈니 크루즈 4박 🏰✨</summary>
+                <div class="details-content" style="padding-top:0;">
+                    <span class="cruise-badge">DISNEY CRUISE 🚢</span>
+                    <p>디즈니 어드벤처(Disney Adventure)에서의 4박 항해를 즐겨주세요!</p>
+                    <ul>
+                        <li>🏰 디즈니 캐릭터 만남 & 포토 타임</li>
+                        <li>🎭 뮤지컬 & 라이브 쇼</li>
+                        <li>🏊 워터슬라이드 & 풀 파티</li>
+                        <li>🍽️ 로테이션 다이닝</li>
+                        <li>👧 키즈 클럽: 오세아니어 클럽</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🔹 마지막 날: 4/27 (월) - 하선 & 귀국 ✈️</summary>
+                <div class="details-content" style="padding-top:0;">
+                    <span class="day-badge">LAST DAY</span>
+                    <p style="font-size:13px; color:#6B7280; margin-bottom:15px;">귀국 비행기 시간에 따라 두 가지 시나리오로 준비했습니다.</p>
+
+                    <div class="scenario-card">
+                        <h4>✈️ 시나리오 A: 저녁 10시(22:00) 비행기</h4>
+                        <ul>
+                            <li><strong>08:00</strong> | 🚢 크루즈 하선</li>
+                            <li><strong>09:00</strong> | 📦 창이공항 짐 보관소에 짐 맡기기
+                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;또는 Bounce 앱으로 부기스 근처 보관소 예약</span></li>
+                            <li><strong>10:00</strong> | 🎨 <strong>하지레인(Haji Lane)</strong> 방문
+                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;컬러풀한 벽화 거리, 소품 쇼핑, 카페 즐기기</span></li>
+                            <li><strong>12:00</strong> | 🍜 아랍 스트리트 근처에서 점심</li>
+                            <li><strong>14:00</strong> | 🚕 창이공항으로 이동</li>
+                            <li><strong>15:00</strong> | 🎡 <strong>쥬얼 창이 캐노피파크</strong> 놀기
+                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;디스커버리 슬라이드, 포기 볼, 바운싱넷 등</span>
+                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;🕒 월~목 10:00~21:00 / 금~일 10:00~22:00</span>
+                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;💰 입장료 SGD 8 (슬라이드+포기볼+정원)</span></li>
+                            <li><strong>17:30</strong> | 🍽️ 쥬얼 or 공항 내에서 석식</li>
+                            <li><strong>19:00</strong> | 🛁 <strong>라운지에서 샤워</strong>
+                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;T4: Blossom Lounge (24시간, 샤워시설 有)</span>
+                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;Priority Pass 또는 유료 입장 가능</span></li>
+                            <li><strong>20:00</strong> | 🛂 출국 심사</li>
+                            <li><strong>22:00</strong> | ✈️ 귀국!</li>
+                        </ul>
+                    </div>
+
+                    <div class="scenario-card" style="margin-top: 15px; background: #EFF6FF; border-color: #93C5FD;">
+                        <h4 style="color: #1E40AF;">✈️ 시나리오 B: 다음날 아침 7:30 비행기</h4>
+                        <ul>
+                            <li><strong>08:00</strong> | 🚢 크루즈 하선</li>
+                            <li><strong>09:30</strong> | 🎨 하지레인 방문 (짐은 호텔에 선 체크인 or 보관)</li>
+                            <li><strong>12:00</strong> | 🍜 점심 식사</li>
+                            <li><strong>14:00</strong> | 🏨 <strong>보트 키 근처 호텔 체크인</strong> 후 휴식
+                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;짐 정리, 낮잠, 재충전 타임</span></li>
+                            <li><strong>18:00</strong> | 🚶 보트 키 산책 & 석양 감상</li>
+                            <li><strong>18:30</strong> | 🍽️ <strong>보트 키에서 저녁 식사</strong>
+                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;추천: Dumpling Darlings (만두+면 전문)</span>
+                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;추천: Wild Child Pizzette (나폴리 피자)</span></li>
+                            <li><strong>20:30</strong> | 🏨 호텔로 복귀, 일찍 취침</li>
+                            <li style="color: #E11D48;"><strong>다음날 04:30</strong> | 기상 → 05:00 택시 → 05:30 공항</li>
+                            <li><strong>07:30</strong> | ✈️ 귀국!</li>
+                        </ul>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- 구글 지도 저장 -->
+        <div class="card">
+            <h2 class="card-title">📍 주요 장소 구글 지도 바로가기</h2>
+            <p class="item-desc" style="margin-bottom: 15px;">터치하면 구글 지도에서 바로 위치를 확인할 수 있어요.</p>
+
+            <details>
+                <summary>🏨 숙소</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Hilton+Singapore+Orchard"
+                                target="_blank">힐튼 싱가포르 오차드 🏨</a></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>✈️ 공항 & 크루즈</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Changi+Airport+Terminal+4+Singapore"
+                                target="_blank">창이공항 터미널 4</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Jewel+Changi+Airport"
+                                target="_blank">쥬얼 창이 (Jewel Changi)</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Marina+Bay+Cruise+Centre+Singapore"
+                                target="_blank">마리나 베이 크루즈 센터 🚢</a></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🌿 자연 & 관광</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Rainforest+Wild+Asia+Mandai"
+                                target="_blank">레인포레스트 와일드 아시아</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Merlion+Park+Singapore"
+                                target="_blank">머라이언파크 🦁</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Gardens+by+the+Bay+Singapore"
+                                target="_blank">가든스 바이 더 베이 🌳</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Supertree+Grove+Gardens+by+the+Bay"
+                                target="_blank">슈퍼트리 그로브 (가든 랩소디)</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Singapore+Botanic+Gardens"
+                                target="_blank">싱가포르 보태닉 가든 🌺</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Haji+Lane+Singapore"
+                                target="_blank">하지레인 (Haji Lane) 🎨</a></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🍽️ 식사 & 쇼핑</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Chatterbox+Hilton+Singapore+Orchard"
+                                target="_blank">채터박스 (힐튼 오차드 5층) 🍗</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Orchard+Road+Singapore"
+                                target="_blank">오차드 로드 🛍️</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Boat+Quay+Singapore"
+                                target="_blank">보트 키 (Boat Quay) 🌃</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Canopy+Park+Jewel+Changi+Airport"
+                                target="_blank">캐노피파크 (쥬얼 창이) 🎡</a></li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <div class="section-divider">── 장소별 상세 정보 ──</div>
+
+        <!-- 쥬얼 창이 -->
+        <div class="card">
+            <h2 class="card-title">💎 쥬얼 창이 (Jewel Changi Airport)</h2>
+
+            <details>
+                <summary>🌊 HSBC 레인 보텍스 (실내 폭포)</summary>
+                <div class="details-content">
+                    <div class="item-row">
+                        <span class="tag">세계 최대 실내 폭포</span>
+                        <div class="item-title">높이 40m의 경이로운 폭포</div>
+                        <p class="item-desc">
+                            쥬얼 중앙에 위치한 7층 높이의 실내 폭포. 1층부터 5층까지 다양한 각도에서 감상 가능.<br>
+                            <strong style="color:var(--primary); font-size:13px;">🕒 폭포 운영: 10:00~22:00</strong><br>
+                            <strong style="color:#7C3AED; font-size:13px;">✨ 빛 쇼: 19:30 / 20:30 / 21:30 / 22:30 / 23:30</strong>
+                        </p>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🎡 캐노피파크 (Canopy Park)</summary>
+                <div class="details-content">
+                    <div class="item-row">
+                        <span class="tag">옥상 놀이공원</span>
+                        <div class="item-title">쥬얼 창이 최상층 체험 공간</div>
+                        <p class="item-desc">
+                            디스커버리 슬라이드, 포기 볼, 바운싱넷, 미로 등 다양한 액티비티.<br>
+                            <strong style="color:var(--primary); font-size:13px;">🕒 월~목 10:00~21:00 / 금~일·공휴일 10:00~22:00</strong><br>
+                            <strong style="color:var(--primary); font-size:13px;">💰 기본 입장 SGD 8 (아동 동일)</strong><br>
+                            <strong style="font-size:13px; color:#6B7280;">※ 바운싱넷, 워킹넷, 미로 등은 별도 티켓 (번들 할인 有)</strong>
+                        </p>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary>🍜 쥬얼 내 추천 식당</summary>
+                <div class="details-content">
+                    <div class="item-row">
+                        <span class="tag">로컬 푸드</span>
+                        <div class="item-title">A Noodle Story (B2)</div>
+                        <p class="item-desc">미슐랭 빕 구르망 선정 누들. 싱가포르식 라멘의 정수.<br>
+                            <strong style="color:var(--primary); font-size:13px;">🕒 11:00~21:30</strong>
+                        </p>
+                    </div>
+                    <div class="item-row">
+                        <span class="tag">버거</span>
+                        <div class="item-title">Shake Shack (L1)</div>
+                        <p class="item-desc">아이와 함께하기 좋은 안전한 선택지. 늦은 시간까지 영업.<br>
+                            <strong style="color:var(--primary); font-size:13px;">🕒 10:00~22:00</strong>
+                        </p>
+                    </div>
+                    <div class="item-row">
+                        <span class="tag">디저트</span>
+                        <div class="item-title">Tiger Sugar (B2)</div>
+                        <p class="item-desc">흑설탕 버블티로 유명한 대만 브랜드.</p>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- 레인포레스트 와일드 아시아 -->
+        <div class="card">
+            <h2 class="card-title">🌿 레인포레스트 와일드 아시아</h2>
+            <div class="item-row">
+                <span class="tag">2025년 개장</span>
+                <div class="item-title">만다이 와일드라이프 리저브 신규 파크</div>
+                <p class="item-desc">
+                    전통 동물원이 아닌 열대우림 속 트레킹 & 어드벤처 컨셉. 동물들이 울타리 없이 자유롭게 돌아다닙니다.<br>
+                    <strong style="color:var(--primary); font-size:13px;">🕒 매일 09:00~18:00 (마지막 입장 17:00)</strong><br>
+                    <strong style="font-size:13px; color:#6B7280;">📍 만다이 와일드라이프 웨스트</strong>
+                </p>
+            </div>
+            <div class="tip-box">
+                💡 <strong>방문 팁:</strong><br>
+                • 편한 운동화 필수 (비포장 트레일 有)<br>
+                • 화장실이 입구 근처에만 있으니 미리 이용<br>
+                • 만다이 앱 다운로드 → 실시간 동물 위치 & 레인저 토크 일정 확인<br>
+                • 물·선크림·모자 챙기기 (열대 기후 대비)
+            </div>
+        </div>
+
+        <!-- 채터박스 -->
+        <div class="card">
+            <h2 class="card-title">🍗 채터박스 (Chatterbox)</h2>
+            <div class="item-row">
+                <span class="tag">힐튼 오차드 5층</span>
+                <span class="tag">1971년 오픈</span>
+                <div class="item-title">싱가포르 명물 치킨라이스의 성지</div>
+                <p class="item-desc">
+                    1971년부터 이어진 싱가포르의 상징적 레스토랑. <strong>만다린 치킨 라이스</strong>가 시그니처 메뉴.<br>
+                    숙박 호텔 안에 있어 이동이 매우 편리합니다!<br><br>
+                    <strong>추천 메뉴:</strong><br>
+                    • 🍗 만다린 치킨 라이스 (시그니처)<br>
+                    • 🦞 랍스터 락사<br>
+                    • 🦐 해산물 호끼엔 미<br>
+                    <strong style="color:var(--primary); font-size:13px;">🕒 운영시간은 호텔에서 확인</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- 머라이언파크 ~ 가든스 바이 더 베이 -->
+        <div class="card">
+            <h2 class="card-title">🦁 머라이언 → 가든스 바이 더 베이 코스</h2>
+
+            <details>
+                <summary>📍 추천 동선 & 소요시간</summary>
+                <div class="details-content">
+                    <ol>
+                        <li><strong>머라이언파크</strong> (약 30분) - 포토 타임!<br>
+                            <span style="font-size:12px; color:#6B7280;">MRT Raffles Place역 하차 or 택시</span>
+                        </li>
+                        <li>➡️ <strong>도보 약 20~25분</strong> (마리나 베이 워터프런트 산책)
+                            <br><span style="font-size:12px; color:#6B7280;">거리 약 2km, 마리나 베이 샌즈 & 아트사이언스 뮤지엄 조망</span>
+                        </li>
+                        <li><strong>가든스 바이 더 베이</strong> (약 2~3시간)
+                            <br><span style="font-size:12px; color:#0D9488;">• 슈퍼트리 그로브: 무료</span>
+                            <br><span style="font-size:12px; color:#0D9488;">• 플라워 돔 + 클라우드 포레스트: 유료 (SGD 53/성인)</span>
+                            <br><span style="font-size:12px; color:#7C3AED;">• 가든 랩소디 빛쇼: 무료 (19:45 / 20:45)</span>
+                        </li>
+                    </ol>
+                    <div class="tip-box">
+                        💡 <strong>더위 대비:</strong> 머라이언~가든스 구간은 그늘이 적습니다. 오후 4시 이후 방문이 쾌적하고, 석양+야경까지 즐길 수 있어 최적입니다.
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- 보태닉 가든 -->
+        <div class="card">
+            <h2 class="card-title">🌺 싱가포르 보태닉 가든</h2>
+            <div class="item-row">
+                <span class="tag">UNESCO 세계유산</span>
+                <span class="tag">입장 무료</span>
+                <div class="item-title">164년 역사의 열대 식물원</div>
+                <p class="item-desc">
+                    힐튼 오차드에서 택시 약 5분 거리. 82헥타르 규모의 열대 식물원으로, 아침 산책에 완벽합니다.<br><br>
+                    <strong>하이라이트:</strong><br>
+                    • 🌸 국립 난초 정원 (National Orchid Garden) - <strong>유료, SGD 5</strong><br>
+                    • 🌳 레인포레스트 트레일<br>
+                    • 🦢 백조 호수 (Swan Lake)<br><br>
+                    <strong style="color:var(--primary); font-size:13px;">🕒 정원: 매일 05:00~00:00 (무료)</strong><br>
+                    <strong style="color:var(--primary); font-size:13px;">🕒 난초 정원: 08:30~19:00 (마지막 입장 18:00)</strong><br>
+                    <strong style="font-size:13px; color:#6B7280;">⏱️ 추천 관람시간: 2~3시간 (오전 방문 추천)</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- 하지레인 -->
+        <div class="card">
+            <h2 class="card-title">🎨 하지레인 (Haji Lane)</h2>
+            <div class="item-row">
+                <span class="tag">포토 스팟</span>
+                <span class="tag">아랍 스트리트</span>
+                <div class="item-title">싱가포르에서 가장 힙한 골목</div>
+                <p class="item-desc">
+                    컬러풀한 벽화와 독특한 부티크 숍, 카페가 줄지어 있는 좁은 골목길.<br>
+                    술탄 모스크(Sultan Mosque)도 바로 인근에 있어 함께 구경 가능.<br><br>
+                    <strong style="color:#E11D48; font-size:13px;">⚠️ 좁은 골목이라 캐리어 이동 매우 불편 → 짐 보관 필수!</strong><br>
+                    <strong style="font-size:13px; color:#6B7280;">📍 MRT Bugis역 하차 도보 5분</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- 보트 키 -->
+        <div class="card">
+            <h2 class="card-title">🌃 보트 키 (Boat Quay)</h2>
+            <div class="item-row">
+                <span class="tag">리버사이드 다이닝</span>
+                <div class="item-title">싱가포르 리버변의 분위기 있는 식당 거리</div>
+                <p class="item-desc">
+                    싱가포르 강변을 따라 레스토랑과 바가 즐비한 지역. 석양 시간에 방문하면 야경까지 즐길 수 있습니다.<br><br>
+                    <strong>가족 식사 추천:</strong><br>
+                    • 🥟 <strong>Dumpling Darlings</strong> (Circular Rd) - 만두+면 전문, 캐주얼한 분위기<br>
+                    • 🍕 <strong>Wild Child Pizzette</strong> (Circular Rd) - 나폴리식 피자, 아이와 함께 좋음<br>
+                    • 🍔 <strong>The Penny Black</strong> - 영국식 펍 음식, 버거+피쉬앤칩스<br><br>
+                    <strong style="font-size:13px; color:#6B7280;">📍 MRT Raffles Place역 하차 도보 5분</strong>
+                </p>
+            </div>
+            <div class="tip-box">
+                💡 <strong>팁:</strong> 보트 키는 저녁이 되면 바 분위기로 바뀝니다. 가족 식사는 17:30~19:30 사이가 가장 쾌적합니다.
+            </div>
+        </div>
+
+        <!-- 교통 정보 -->
+        <div class="section-divider">── 교통 & 실용 정보 ──</div>
+
+        <div class="card">
+            <h2 class="card-title">🚕 싱가포르 교통 가이드</h2>
+
+            <details>
+                <summary>🚕 택시 / 그랩(Grab) 이용법</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><strong>Grab 앱</strong>을 미리 설치! 싱가포르의 카카오택시입니다.</li>
+                        <li>대부분의 이동은 <strong>SGD 10~25</strong> 범위 (시내 이동)</li>
+                        <li>공항 ↔ 시내: 약 SGD 20~35 (야간 할증 有)</li>
+                        <li>현금보다 카드 결제가 편리 (Grab 앱 내 결제)</li>
+                        <li><strong>주요 택시비 예상:</strong>
+                            <br>• 힐튼 오차드 → 만다이 (와일드 아시아): SGD 20~30
+                            <br>• 힐튼 오차드 → 머라이언파크: SGD 10~15
+                            <br>• 쥬얼 창이 → 힐튼 오차드: SGD 20~30
+                            <br>• 힐튼 오차드 → 보태닉 가든: SGD 5~8
+                            <br>• 힐튼 오차드 → 크루즈 센터: SGD 15~20
+                        </li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🚌 T4 → 쥬얼 창이 셔틀버스</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><strong>출발:</strong> T4 도착홀(Arrival Hall)</li>
+                        <li><strong>도착:</strong> T1 → 쥬얼 직결 연결</li>
+                        <li><strong>운행:</strong> 06:00~00:00 직행 / 00:00~06:00 경유</li>
+                        <li><strong>소요시간:</strong> 약 10~19분</li>
+                        <li><strong>비용:</strong> 무료 🎉</li>
+                        <li>⚠️ T4에서 쥬얼까지 <strong>걸어갈 수 없습니다</strong> (별도 건물, 약 3km)</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>💳 결제 & 화폐 팁</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><strong>통화:</strong> 싱가포르 달러(SGD) / 한화 약 1,000원 = 약 SGD 1 내외</li>
+                        <li><strong>카드:</strong> 대부분의 장소에서 비자/마스터 카드 사용 가능</li>
+                        <li><strong>현금:</strong> 호커센터(푸드코트) 일부에서 현금만 가능할 수 있음</li>
+                        <li><strong>팁 문화:</strong> 싱가포르는 팁이 불필요합니다 (서비스차지 포함)</li>
+                        <li><strong>물:</strong> 수돗물을 마셔도 안전합니다</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary>🌡️ 날씨 & 준비물</summary>
+                <div class="details-content">
+                    <ul>
+                        <li><strong>기온:</strong> 연중 27~33°C (4월: 습하고 더움)</li>
+                        <li><strong>강수:</strong> 4월은 우기 막바지, 소나기 가능</li>
+                        <li><strong>필수 준비물:</strong>
+                            <br>☀️ 선크림, 선글라스, 모자
+                            <br>🌂 접이식 우산 (갑작스러운 소나기 대비)
+                            <br>👟 편한 운동화 (특히 와일드 아시아)
+                            <br>💧 물통 (실외 관광 시 필수)
+                            <br>🧥 얇은 겉옷 (실내 냉방이 매우 강함!)
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <!-- 창이공항 라운지 -->
+        <div class="card">
+            <h2 class="card-title">🛁 창이공항 라운지 & 샤워</h2>
+            <div class="item-row">
+                <span class="tag">T4</span>
+                <span class="tag">24시간</span>
+                <div class="item-title">Blossom - SATS & Plaza Premium Lounge</div>
+                <p class="item-desc">
+                    T4 출국심사 후 2M층(메자닌). 24시간 운영이며 <strong>샤워 시설 완비</strong>.<br>
+                    Priority Pass 또는 유료 입장(약 SGD 50~60)으로 이용 가능.<br><br>
+                    <strong style="color:#E11D48; font-size:13px;">⚠️ 샤워 이용 시 입장 즉시 리셉션에서 대기 번호 받기! (피크 시 대기 有)</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- 비상 연락처 -->
+        <div class="card">
+            <h2 class="card-title">📞 비상 연락처 & 유용한 번호</h2>
+            <div class="item-row">
+                <p class="item-desc">
+                    🚨 <strong>싱가포르 긴급 전화:</strong> 999 (경찰) / 995 (구급차·소방)<br>
+                    🏥 <strong>24시간 병원:</strong> +65 6473 7222 (마운트 엘리자베스 병원)<br>
+                    🇰🇷 <strong>주 싱가포르 대한민국 대사관:</strong> +65 6256 1188<br>
+                    ✈️ <strong>창이공항 안내:</strong> +65 6595 6868<br>
+                    🚕 <strong>Grab 고객센터:</strong> 앱 내 '도움말'에서 문의
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 13px; color: #9CA3AF; margin-top: 30px;">
+            안비서(An-biseo)가 연서네 가족을 위해 작성했습니다. 🌴💚
+        </div>
+    </div>
+
+    <!-- 서비스 워커 등록 & PWA 설치 배너 -->
+    <script>
+        // 서비스 워커 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/anjipsa/2604/sw.js', {scope: '/anjipsa/2604/'})
+                    .then((reg) => {
+                        console.log('✅ Service Worker 등록 성공:', reg.scope);
+                    })
+                    .catch((err) => {
+                        console.log('❌ Service Worker 등록 실패:', err);
+                    });
+            });
+        }
+
+        // PWA 설치 프롬프트 (Android)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallBanner();
+        });
+
+        function showInstallBanner() {
+            // 이미 배너가 있으면 스킵
+            if (document.getElementById('pwa-install-banner')) return;
+
+            const banner = document.createElement('div');
+            banner.id = 'pwa-install-banner';
+            banner.style.cssText = `
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #0D9488 0%, #0891B2 100%);
+                color: white;
+                padding: 16px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                z-index: 10000;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            `;
+            banner.innerHTML = `
+                <div style="flex:1;">
+                    <div style="font-weight:700; font-size:15px;">📱 앱으로 설치하기</div>
+                    <div style="font-size:12px; opacity:0.9; margin-top:2px;">홈 화면에 추가하면 오프라인에서도 사용!</div>
+                </div>
+                <button onclick="installPWA()" style="background:white; color:#0D9488; border:none; padding:10px 20px; border-radius:100px; font-weight:700; font-size:14px; cursor:pointer; white-space:nowrap;">설치</button>
+                <button onclick="this.parentElement.remove()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer; padding:4px; opacity:0.7;">✕</button>
+            `;
+            document.body.appendChild(banner);
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((result) => {
+                    if (result.outcome === 'accepted') {
+                        console.log('✅ PWA 설치됨!');
+                    }
+                    deferredPrompt = null;
+                    const banner = document.getElementById('pwa-install-banner');
+                    if (banner) banner.remove();
+                });
+            }
+        }
+
+        // iOS Safari 감지 - 설치 안내 표시
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        if (isIOS && !isStandalone) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    const iosBanner = document.createElement('div');
+                    iosBanner.id = 'ios-install-banner';
+                    iosBanner.style.cssText = `
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: linear-gradient(135deg, #0D9488 0%, #0891B2 100%);
+                        color: white;
+                        padding: 16px 20px;
+                        z-index: 10000;
+                        box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+                        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                        text-align: center;
+                    `;
+                    iosBanner.innerHTML = `
+                        <div style="font-weight:700; font-size:15px; margin-bottom:6px;">📱 앱으로 설치하기</div>
+                        <div style="font-size:13px; opacity:0.95;">Safari 하단의 <strong style="font-size:18px;">⬆</strong> 버튼 → <strong>"홈 화면에 추가"</strong> 를 탭하세요!</div>
+                        <button onclick="this.parentElement.remove()" style="position:absolute; top:8px; right:12px; background:none; border:none; color:white; font-size:18px; cursor:pointer; opacity:0.7;">✕</button>
+                    `;
+                    document.body.appendChild(iosBanner);
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+
+</html>
