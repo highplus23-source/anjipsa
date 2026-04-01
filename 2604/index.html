@@ -319,6 +319,146 @@
             font-size: 15px;
             color: #92400E;
         }
+
+        /* 메모 스타일 */
+        .memo-card {
+            background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
+            border: 2px solid #FDA4AF;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(251, 113, 133, 0.2);
+            position: relative;
+        }
+
+        .memo-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #E11D48;
+        }
+
+        .memo-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #E11D48;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 100px;
+            padding: 0 6px;
+        }
+
+        .memo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 12px;
+        }
+
+        .memo-item {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .memo-item-text {
+            flex: 1;
+            font-size: 14px;
+            color: #1F2937;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .memo-item-time {
+            font-size: 11px;
+            color: #9CA3AF;
+            white-space: nowrap;
+            margin-top: 2px;
+        }
+
+        .memo-delete {
+            background: none;
+            border: none;
+            color: #D1D5DB;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .memo-delete:active {
+            color: #E11D48;
+        }
+
+        .memo-input-wrap {
+            display: flex;
+            gap: 8px;
+        }
+
+        .memo-input {
+            flex: 1;
+            border: 2px solid #FECDD3;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            background: white;
+            color: #1F2937;
+            transition: border-color 0.2s;
+        }
+
+        .memo-input:focus {
+            border-color: #FB7185;
+        }
+
+        .memo-input::placeholder {
+            color: #D1D5DB;
+        }
+
+        .memo-add-btn {
+            background: #E11D48;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .memo-add-btn:active {
+            background: #BE123C;
+            transform: translateY(1px);
+        }
+
+        .memo-empty {
+            text-align: center;
+            color: #FDA4AF;
+            font-size: 14px;
+            padding: 15px 0;
+        }
     </style>
 </head>
 
@@ -330,6 +470,18 @@
     </div>
 
     <div class="container">
+
+        <!-- 📌 메모 / 일정 변경 공지 -->
+        <div class="memo-card" id="memoCard">
+            <h2 class="memo-title">📌 메모 & 일정 변경 <span class="memo-badge" id="memoBadge">0</span></h2>
+            <ul class="memo-list" id="memoList">
+                <li class="memo-empty" id="memoEmpty">아직 메모가 없어요. 일정 변경이나 메모를 남겨보세요!</li>
+            </ul>
+            <div class="memo-input-wrap">
+                <input type="text" class="memo-input" id="memoInput" placeholder="메모를 입력하세요..." maxlength="200">
+                <button class="memo-add-btn" id="memoAddBtn" onclick="addMemo()">추가</button>
+            </div>
+        </div>
 
         <!-- 핵심 질문 답변 -->
         <div class="card">
@@ -965,6 +1117,98 @@
             안비서(An-biseo)가 연서네 가족을 위해 작성했습니다. 🌴💚
         </div>
     </div>
+
+    <!-- 메모 기능 스크립트 -->
+    <script>
+        const MEMO_KEY = 'sg-travel-memos';
+
+        function getMemos() {
+            try {
+                return JSON.parse(localStorage.getItem(MEMO_KEY)) || [];
+            } catch { return []; }
+        }
+
+        function saveMemos(memos) {
+            localStorage.setItem(MEMO_KEY, JSON.stringify(memos));
+        }
+
+        function formatTime(timestamp) {
+            const d = new Date(timestamp);
+            const month = d.getMonth() + 1;
+            const day = d.getDate();
+            const hour = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            return `${month}/${day} ${hour}:${min}`;
+        }
+
+        function renderMemos() {
+            const memos = getMemos();
+            const list = document.getElementById('memoList');
+            const badge = document.getElementById('memoBadge');
+            const empty = document.getElementById('memoEmpty');
+
+            // 배지 업데이트
+            badge.textContent = memos.length;
+            badge.style.display = memos.length > 0 ? 'inline-flex' : 'none';
+
+            // 리스트 렌더링
+            list.innerHTML = '';
+            if (memos.length === 0) {
+                list.innerHTML = '<li class="memo-empty">아직 메모가 없어요. 일정 변경이나 메모를 남겨보세요!</li>';
+                return;
+            }
+
+            memos.forEach((memo, index) => {
+                const li = document.createElement('li');
+                li.className = 'memo-item';
+                li.innerHTML = `
+                    <div style="flex:1;">
+                        <div class="memo-item-text">${escapeHtml(memo.text)}</div>
+                        <div class="memo-item-time">${formatTime(memo.time)}</div>
+                    </div>
+                    <button class="memo-delete" onclick="deleteMemo(${index})" title="삭제">✕</button>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function addMemo() {
+            const input = document.getElementById('memoInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const memos = getMemos();
+            memos.unshift({ text: text, time: Date.now() });
+            saveMemos(memos);
+            input.value = '';
+            renderMemos();
+        }
+
+        function deleteMemo(index) {
+            if (!confirm('이 메모를 삭제할까요?')) return;
+            const memos = getMemos();
+            memos.splice(index, 1);
+            saveMemos(memos);
+            renderMemos();
+        }
+
+        // 엔터키로 메모 추가
+        document.getElementById('memoInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addMemo();
+            }
+        });
+
+        // 페이지 로드 시 메모 렌더링
+        renderMemos();
+    </script>
 
     <!-- 서비스 워커 등록 & PWA 설치 배너 -->
     <script>
