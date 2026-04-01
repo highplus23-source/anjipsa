@@ -319,146 +319,6 @@
             font-size: 15px;
             color: #92400E;
         }
-
-        /* 메모 스타일 */
-        .memo-card {
-            background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
-            border: 2px solid #FDA4AF;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(251, 113, 133, 0.2);
-            position: relative;
-        }
-
-        .memo-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #E11D48;
-        }
-
-        .memo-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #E11D48;
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            min-width: 20px;
-            height: 20px;
-            border-radius: 100px;
-            padding: 0 6px;
-        }
-
-        .memo-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 12px;
-        }
-
-        .memo-item {
-            background: white;
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .memo-item-text {
-            flex: 1;
-            font-size: 14px;
-            color: #1F2937;
-            line-height: 1.5;
-            word-break: break-word;
-        }
-
-        .memo-item-time {
-            font-size: 11px;
-            color: #9CA3AF;
-            white-space: nowrap;
-            margin-top: 2px;
-        }
-
-        .memo-delete {
-            background: none;
-            border: none;
-            color: #D1D5DB;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            flex-shrink: 0;
-        }
-
-        .memo-delete:active {
-            color: #E11D48;
-        }
-
-        .memo-input-wrap {
-            display: flex;
-            gap: 8px;
-        }
-
-        .memo-input {
-            flex: 1;
-            border: 2px solid #FECDD3;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 14px;
-            font-family: inherit;
-            outline: none;
-            background: white;
-            color: #1F2937;
-            transition: border-color 0.2s;
-        }
-
-        .memo-input:focus {
-            border-color: #FB7185;
-        }
-
-        .memo-input::placeholder {
-            color: #D1D5DB;
-        }
-
-        .memo-add-btn {
-            background: #E11D48;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .memo-add-btn:active {
-            background: #BE123C;
-            transform: translateY(1px);
-        }
-
-        .memo-empty {
-            text-align: center;
-            color: #FDA4AF;
-            font-size: 14px;
-            padding: 15px 0;
-        }
     </style>
 </head>
 
@@ -470,19 +330,6 @@
     </div>
 
     <div class="container">
-
-        <!-- 📌 메모 / 일정 변경 공지 -->
-        <div class="memo-card" id="memoCard">
-            <h2 class="memo-title">📌 메모 & 일정 변경 <span class="memo-badge" id="memoBadge">0</span></h2>
-            <div id="memoStatus" style="font-size:11px; color:#9CA3AF; margin-bottom:8px; text-align:right;">🔄 동기화 중...</div>
-            <ul class="memo-list" id="memoList">
-                <li class="memo-empty">불러오는 중...</li>
-            </ul>
-            <div class="memo-input-wrap">
-                <input type="text" class="memo-input" id="memoInput" placeholder="메모를 입력하세요..." maxlength="200">
-                <button class="memo-add-btn" id="memoAddBtn" onclick="addMemo()">추가</button>
-            </div>
-        </div>
 
         <!-- 핵심 질문 답변 -->
         <div class="card">
@@ -735,8 +582,8 @@
                                 <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;💰 입장료 SGD 8 (슬라이드+포기볼+정원)</span></li>
                             <li><strong>17:30</strong> | 🍽️ 쥬얼 or 공항 내에서 석식</li>
                             <li><strong>19:00</strong> | 🛁 <strong>라운지에서 샤워</strong>
-                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;T4: Blossom Lounge (대한항공 프레스티지 무료!)</span>
-                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;출국심사 후 2M층, 입장 즉시 샤워 대기번호 받기</span></li>
+                                <br><span style="font-size:12px; color:#0D9488;">&nbsp;&nbsp;&nbsp;T4: Blossom Lounge (24시간, 샤워시설 有)</span>
+                                <br><span style="font-size:12px; color:#6B7280;">&nbsp;&nbsp;&nbsp;Priority Pass 또는 유료 입장 가능</span></li>
                             <li><strong>20:00</strong> | 🛂 출국 심사</li>
                             <li><strong>22:00</strong> | ✈️ 귀국!</li>
                         </ul>
@@ -1090,13 +937,11 @@
             <h2 class="card-title">🛁 창이공항 라운지 & 샤워</h2>
             <div class="item-row">
                 <span class="tag">T4</span>
-                <span class="tag">대한항공 프레스티지</span>
-                <span class="tag" style="background:#EDE9FE; color:#5B21B6;">무료 이용</span>
+                <span class="tag">24시간</span>
                 <div class="item-title">Blossom - SATS & Plaza Premium Lounge</div>
                 <p class="item-desc">
-                    T4 출국심사 후 2M층(메자닌). 24시간 운영이며 <strong>샤워 시설 완비</strong>.<br><br>
-                    <strong style="color:#0D9488;">✈️ 대한항공 프레스티지석 탑승 시 무료 이용 가능!</strong><br>
-                    체크인 시 라운지 초대장(Lounge Invitation)을 받으세요.<br><br>
+                    T4 출국심사 후 2M층(메자닌). 24시간 운영이며 <strong>샤워 시설 완비</strong>.<br>
+                    Priority Pass 또는 유료 입장(약 SGD 50~60)으로 이용 가능.<br><br>
                     <strong style="color:#E11D48; font-size:13px;">⚠️ 샤워 이용 시 입장 즉시 리셉션에서 대기 번호 받기! (피크 시 대기 有)</strong>
                 </p>
             </div>
@@ -1120,154 +965,6 @@
             안비서(An-biseo)가 연서네 가족을 위해 작성했습니다. 🌴💚
         </div>
     </div>
-
-    <!-- 메모 기능 스크립트 (온라인 공유) -->
-    <script>
-        const BLOB_ID = '019d4a06-3c2a-75dc-961f-963af45d91ba';
-        const API_URL = `https://jsonblob.com/api/jsonBlob/${BLOB_ID}`;
-        let currentMemos = [];
-        let isSyncing = false;
-
-        function setStatus(text) {
-            const el = document.getElementById('memoStatus');
-            if (el) el.textContent = text;
-        }
-
-        // 서버에서 메모 가져오기
-        async function fetchMemos() {
-            try {
-                setStatus('🔄 동기화 중...');
-                const res = await fetch(API_URL, {
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                if (!res.ok) throw new Error('Fetch failed');
-                const data = await res.json();
-                currentMemos = data.memos || [];
-                renderMemos();
-                setStatus('✅ 동기화 완료 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
-            } catch (err) {
-                console.error('Fetch error:', err);
-                setStatus('⚠️ 오프라인 모드');
-                // 오프라인 폴백: localStorage
-                try {
-                    currentMemos = JSON.parse(localStorage.getItem('sg-memos-backup')) || [];
-                    renderMemos();
-                } catch { currentMemos = []; renderMemos(); }
-            }
-        }
-
-        // 서버에 메모 저장하기
-        async function saveMemos() {
-            if (isSyncing) return;
-            isSyncing = true;
-            try {
-                setStatus('💾 저장 중...');
-                // 로컬 백업
-                localStorage.setItem('sg-memos-backup', JSON.stringify(currentMemos));
-                const res = await fetch(API_URL, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ memos: currentMemos })
-                });
-                if (!res.ok) throw new Error('Save failed');
-                setStatus('✅ 저장 완료 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
-            } catch (err) {
-                console.error('Save error:', err);
-                setStatus('⚠️ 저장 실패 - 다시 시도해주세요');
-            } finally {
-                isSyncing = false;
-            }
-        }
-
-        function formatTime(timestamp) {
-            const d = new Date(timestamp);
-            const month = d.getMonth() + 1;
-            const day = d.getDate();
-            const hour = String(d.getHours()).padStart(2, '0');
-            const min = String(d.getMinutes()).padStart(2, '0');
-            return `${month}/${day} ${hour}:${min}`;
-        }
-
-        function renderMemos() {
-            const list = document.getElementById('memoList');
-            const badge = document.getElementById('memoBadge');
-
-            badge.textContent = currentMemos.length;
-            badge.style.display = currentMemos.length > 0 ? 'inline-flex' : 'none';
-
-            list.innerHTML = '';
-            if (currentMemos.length === 0) {
-                list.innerHTML = '<li class="memo-empty">아직 메모가 없어요. 일정 변경이나 메모를 남겨보세요!</li>';
-                return;
-            }
-
-            currentMemos.forEach((memo, index) => {
-                const li = document.createElement('li');
-                li.className = 'memo-item';
-                li.innerHTML = `
-                    <div style="flex:1;">
-                        <div class="memo-item-text">${escapeHtml(memo.text)}</div>
-                        <div class="memo-item-time">${formatTime(memo.time)}</div>
-                    </div>
-                    <button class="memo-delete" data-index="${index}" title="삭제">✕</button>
-                `;
-                list.appendChild(li);
-            });
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // 이벤트 위임으로 삭제 처리 (onclick 대신)
-        document.getElementById('memoList').addEventListener('click', function(e) {
-            const btn = e.target.closest('.memo-delete');
-            if (!btn) return;
-            e.stopPropagation();
-            const index = parseInt(btn.dataset.index, 10);
-            if (isNaN(index)) return;
-            currentMemos.splice(index, 1);
-            renderMemos();
-            saveMemos();
-        });
-
-        async function addMemo() {
-            const input = document.getElementById('memoInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            currentMemos.unshift({ text: text, time: Date.now() });
-            input.value = '';
-            renderMemos();
-            await saveMemos();
-        }
-
-        // 엔터키로 메모 추가
-        document.getElementById('memoInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                addMemo();
-            }
-        });
-
-        // 새로고침 버튼 (수동 동기화)
-        document.getElementById('memoStatus').addEventListener('click', () => {
-            fetchMemos();
-        });
-
-        // 페이지 로드 시 메모 불러오기
-        fetchMemos();
-
-        // 30초마다 자동 동기화 (다른 사람의 변경사항 반영)
-        setInterval(fetchMemos, 30000);
-
-        // 페이지가 다시 보일 때 동기화 (탭 전환, 화면 켤 때)
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) fetchMemos();
-        });
-    </script>
 
     <!-- 서비스 워커 등록 & PWA 설치 배너 -->
     <script>
