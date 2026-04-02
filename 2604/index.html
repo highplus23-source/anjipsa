@@ -1273,7 +1273,7 @@
         // 서비스 워커 등록
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/anjipsa/2604/sw.js', {scope: '/anjipsa/2604/'})
+                navigator.serviceWorker.register('/sw.js', {scope: '/'})
                     .then((reg) => {
                         console.log('✅ Service Worker 등록 성공:', reg.scope);
                     })

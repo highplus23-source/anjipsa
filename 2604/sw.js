@@ -1,5 +1,5 @@
-const CACHE_NAME = 'sg-travel-v3';
-const BASE_PATH = '/anjipsa/2604';
+const CACHE_NAME = 'sg-travel-v4';
+const BASE_PATH = '';
 const ASSETS_TO_CACHE = [
   `${BASE_PATH}/`,
   `${BASE_PATH}/index.html`,

@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "travel-sg-2026",
+    "public": "2604",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
