@@ -1121,10 +1121,10 @@
         </div>
     </div>
 
-    <!-- 메모 기능 스크립트 (온라인 공유) -->
+    <!-- 메모 기능 스크립트 (Firebase Realtime Database) -->
     <script>
-        const BLOB_ID = '019d4a06-3c2a-75dc-961f-963af45d91ba';
-        const API_URL = `https://jsonblob.com/api/jsonBlob/${BLOB_ID}`;
+        const DB_URL = 'https://anjipsa-2752c-default-rtdb.asia-southeast1.firebasedatabase.app';
+        const MEMOS_PATH = `${DB_URL}/memos.json`;
         let currentMemos = [];
         let isSyncing = false;
 
@@ -1133,22 +1133,22 @@
             if (el) el.textContent = text;
         }
 
-        // 서버에서 메모 가져오기
+        // Firebase에서 메모 가져오기
         async function fetchMemos() {
             try {
                 setStatus('🔄 동기화 중...');
-                const res = await fetch(API_URL, {
-                    headers: { 'Content-Type': 'application/json' }
-                });
+                const res = await fetch(MEMOS_PATH);
                 if (!res.ok) throw new Error('Fetch failed');
                 const data = await res.json();
-                currentMemos = data.memos || [];
+                currentMemos = data || [];
+                // Firebase는 빈 배열을 null로 저장하므로
+                if (!Array.isArray(currentMemos)) currentMemos = [];
+                localStorage.setItem('sg-memos-backup', JSON.stringify(currentMemos));
                 renderMemos();
                 setStatus('✅ 동기화 완료 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
             } catch (err) {
                 console.error('Fetch error:', err);
-                setStatus('⚠️ 오프라인 모드');
-                // 오프라인 폴백: localStorage
+                setStatus('⚠️ 오프라인 모드 (터치하여 재시도)');
                 try {
                     currentMemos = JSON.parse(localStorage.getItem('sg-memos-backup')) || [];
                     renderMemos();
@@ -1156,24 +1156,23 @@
             }
         }
 
-        // 서버에 메모 저장하기
+        // Firebase에 메모 저장하기
         async function saveMemos() {
             if (isSyncing) return;
             isSyncing = true;
             try {
                 setStatus('💾 저장 중...');
-                // 로컬 백업
                 localStorage.setItem('sg-memos-backup', JSON.stringify(currentMemos));
-                const res = await fetch(API_URL, {
+                const res = await fetch(MEMOS_PATH, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ memos: currentMemos })
+                    body: JSON.stringify(currentMemos)
                 });
                 if (!res.ok) throw new Error('Save failed');
                 setStatus('✅ 저장 완료 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
             } catch (err) {
                 console.error('Save error:', err);
-                setStatus('⚠️ 저장 실패 - 다시 시도해주세요');
+                setStatus('⚠️ 저장 실패 - 터치하여 재시도');
             } finally {
                 isSyncing = false;
             }
@@ -1221,7 +1220,7 @@
             return div.innerHTML;
         }
 
-        // 이벤트 위임으로 삭제 처리 (onclick 대신)
+        // 이벤트 위임으로 삭제 처리
         document.getElementById('memoList').addEventListener('click', function(e) {
             const btn = e.target.closest('.memo-delete');
             if (!btn) return;
@@ -1252,7 +1251,7 @@
             }
         });
 
-        // 새로고침 버튼 (수동 동기화)
+        // 동기화 상태 터치 시 수동 새로고침
         document.getElementById('memoStatus').addEventListener('click', () => {
             fetchMemos();
         });
@@ -1260,8 +1259,8 @@
         // 페이지 로드 시 메모 불러오기
         fetchMemos();
 
-        // 30초마다 자동 동기화 (다른 사람의 변경사항 반영)
-        setInterval(fetchMemos, 30000);
+        // 15초마다 자동 동기화 (다른 사람의 변경사항 반영)
+        setInterval(fetchMemos, 15000);
 
         // 페이지가 다시 보일 때 동기화 (탭 전환, 화면 켤 때)
         document.addEventListener('visibilitychange', () => {
