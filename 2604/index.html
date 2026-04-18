@@ -1219,19 +1219,25 @@
         </div>
     </div>
 
-    <!-- 메모 기능 스크립트 (Firebase Realtime Database) -->
+    <!-- 메모 기능 스크립트 (Firebase Realtime Database - SSE 실시간) -->
     <script>
         const DB_URL = 'https://anjipsa-2752c-default-rtdb.asia-southeast1.firebasedatabase.app';
         const MEMOS_PATH = `${DB_URL}/memos.json`;
         let currentMemos = [];
         let isSyncing = false;
+        let sseConnection = null;
+        let skipNextSSE = false; // 내가 저장한 직후 SSE 이벤트 무시
 
         function setStatus(text) {
             const el = document.getElementById('memoStatus');
             if (el) el.textContent = text;
         }
 
-        // Firebase에서 메모 가져오기
+        function timeStr() {
+            return new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        }
+
+        // Firebase에서 메모 1회 가져오기 (초기 로드 및 폴백용)
         async function fetchMemos() {
             try {
                 setStatus('🔄 동기화 중...');
@@ -1239,11 +1245,10 @@
                 if (!res.ok) throw new Error('Fetch failed');
                 const data = await res.json();
                 currentMemos = data || [];
-                // Firebase는 빈 배열을 null로 저장하므로
                 if (!Array.isArray(currentMemos)) currentMemos = [];
                 localStorage.setItem('sg-memos-backup', JSON.stringify(currentMemos));
                 renderMemos();
-                setStatus('✅ 동기화 완료 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
+                setStatus('✅ 실시간 연결 · ' + timeStr());
             } catch (err) {
                 console.error('Fetch error:', err);
                 setStatus('⚠️ 오프라인 모드 (터치하여 재시도)');
@@ -1254,6 +1259,75 @@
             }
         }
 
+        // ★ Firebase SSE 실시간 스트리밍 연결
+        function connectSSE() {
+            // 기존 연결 닫기
+            if (sseConnection) {
+                sseConnection.close();
+                sseConnection = null;
+            }
+
+            try {
+                const evtSource = new EventSource(MEMOS_PATH.replace('.json', '.json?') + 'orderBy="$key"');
+                sseConnection = evtSource;
+
+                evtSource.addEventListener('put', function(e) {
+                    // 내가 방금 저장한 건 무시 (중복 렌더링 방지)
+                    if (skipNextSSE) {
+                        skipNextSSE = false;
+                        return;
+                    }
+                    try {
+                        const payload = JSON.parse(e.data);
+                        if (payload.path === '/') {
+                            // 전체 데이터 교체
+                            currentMemos = payload.data || [];
+                            if (!Array.isArray(currentMemos)) currentMemos = [];
+                        } else {
+                            // 부분 업데이트 — 전체 다시 가져오기
+                            fetchMemos();
+                            return;
+                        }
+                        localStorage.setItem('sg-memos-backup', JSON.stringify(currentMemos));
+                        renderMemos();
+                        setStatus('🟢 실시간 수신 · ' + timeStr());
+                        console.log('📡 SSE: 실시간 데이터 수신');
+                    } catch (err) {
+                        console.error('SSE parse error:', err);
+                    }
+                });
+
+                evtSource.addEventListener('patch', function(e) {
+                    // patch 이벤트도 처리
+                    if (skipNextSSE) {
+                        skipNextSSE = false;
+                        return;
+                    }
+                    // patch는 복잡하므로 안전하게 전체 다시 가져오기
+                    fetchMemos();
+                });
+
+                evtSource.onopen = function() {
+                    setStatus('🟢 실시간 연결됨 · ' + timeStr());
+                    console.log('✅ SSE 연결 성공');
+                };
+
+                evtSource.onerror = function(err) {
+                    console.error('SSE 연결 오류:', err);
+                    setStatus('⚠️ 재연결 중...');
+                    evtSource.close();
+                    sseConnection = null;
+                    // 3초 후 재연결 시도
+                    setTimeout(connectSSE, 3000);
+                };
+            } catch (err) {
+                console.error('SSE 초기화 실패:', err);
+                setStatus('⚠️ 실시간 연결 실패 - 폴링 모드');
+                // SSE 실패 시 폴링 폴백
+                setInterval(fetchMemos, 10000);
+            }
+        }
+
         // Firebase에 메모 저장하기
         async function saveMemos() {
             if (isSyncing) return;
@@ -1261,15 +1335,20 @@
             try {
                 setStatus('💾 저장 중...');
                 localStorage.setItem('sg-memos-backup', JSON.stringify(currentMemos));
+                skipNextSSE = true; // 내 저장에 의한 SSE 이벤트 무시
                 const res = await fetch(MEMOS_PATH, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(currentMemos)
                 });
-                if (!res.ok) throw new Error('Save failed');
-                setStatus('✅ 저장 완료 · ' + new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}));
+                if (!res.ok) {
+                    skipNextSSE = false;
+                    throw new Error('Save failed');
+                }
+                setStatus('✅ 저장 완료 · ' + timeStr());
             } catch (err) {
                 console.error('Save error:', err);
+                skipNextSSE = false;
                 setStatus('⚠️ 저장 실패 - 터치하여 재시도');
             } finally {
                 isSyncing = false;
@@ -1354,15 +1433,20 @@
             fetchMemos();
         });
 
-        // 페이지 로드 시 메모 불러오기
-        fetchMemos();
+        // 페이지 로드 시 초기 데이터 가져오기 + SSE 실시간 연결
+        fetchMemos().then(() => {
+            connectSSE();
+        });
 
-        // 15초마다 자동 동기화 (다른 사람의 변경사항 반영)
-        setInterval(fetchMemos, 15000);
-
-        // 페이지가 다시 보일 때 동기화 (탭 전환, 화면 켤 때)
+        // 페이지가 다시 보일 때 연결 확인 (탭 전환, 화면 켤 때)
         document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) fetchMemos();
+            if (!document.hidden) {
+                fetchMemos();
+                // SSE 연결이 끊어졌으면 재연결
+                if (!sseConnection || sseConnection.readyState === EventSource.CLOSED) {
+                    connectSSE();
+                }
+            }
         });
     </script>
 
